@@ -1,9 +1,9 @@
 {
-    "name": "hatframework/resources/email",
+    "name": "hatframework/hat-resource-email",
     "type": "library",
     "description": "",
     "keywords": [],
-    "homepage": "https://github.com/hat-framework/resources/email",
+    "homepage": "https://github.com/hat-framework/hat-resource-email",
     "license": "MIT",
     "authors": [
         {
