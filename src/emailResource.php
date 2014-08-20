@@ -48,10 +48,14 @@ class emailResource extends \classes\Interfaces\resource{
     public function send(){
         if(false === $this->mailer->send()){
             $this->setErrorMessage($this->mailer->getErrorMessage());
-            $conteudo = "DE: {$this->configs['remetente']}-{$this->configs['email']}" . "<br/>".$this->configs['conteudo'];
+            $conteudo =
+                    "<hr/>"
+                    . "<b>De:</b> {$this->configs['remetente']}<br>" 
+                    . "<b>Assunto:</b> {$this->configs['assunto']}<br>"
+                    . "<a href='mailto:{$this->configs['email']}'>Responder</a><br/><br/><br/>".$this->configs['conteudo']."<hr/>";
             $assunto  = $this->configs['assunto'];
             foreach($this->destinatario as $dest){
-                \classes\Utils\Log::save("error_mail/$dest/$assunto", $conteudo);
+                \classes\Utils\Log::save("error_mail/$dest/{$this->configs['email']}/$assunto", $conteudo);
             }
             return false;
         }
