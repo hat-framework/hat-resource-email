@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../init.php';
+require_once '../../../../init.php';
 $obj   = new \classes\Classes\Object();
 $users = $obj->LoadModel('usuario/login', 'ulog')->getWebmastersMail();
 $display         = $obj->ulog->UserIsWebmaster();
