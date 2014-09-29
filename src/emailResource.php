@@ -81,7 +81,7 @@ class emailResource extends \classes\Interfaces\resource{
         $this->configure($assunto, $corpo, $email_remetente, $nomeRemetente);
         $this->AddAtachment($anexo);
         $this->AddAddress($destinatarios);
-        return $this->send();
+        return @$this->send();
     }
 	
 }
