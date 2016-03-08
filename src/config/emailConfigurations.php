@@ -154,6 +154,34 @@ class emailConfigurations extends \classes\Classes\Options{
                 
             ),
         ),
+        'email/mailgun' => array(
+            'title'        => 'Configurações do Mailgun',
+            'descricao'    => 'Configurações do envio de emails do site utilizando a api do mailgun',
+            'grupo'        => 'Emails',
+            'type'         => 'resource', //config, plugin, jsplugin, template, resource
+            'referencia'   => 'email/sendgrid',
+            'visibilidade' => 'admin', //'usuario', 'admin', 'webmaster'
+            'configs'      => array(
+
+                'MAILGUN_KEY' => array(
+                    'name'          => 'MAILGUN_KEY',
+                    'label'         => 'Chave',
+                    'type'          => 'varchar',//varchar, text, enum
+                    'description'   => 'Chave de envio da conta do Mailgun https://mailgun.com',
+                    'value'         => '',
+                    'value_default' => ''
+                ),
+
+                'MAILGUN_DOMINIO' => array(
+                    'name'          => 'MAILGUN_DOMINIO',
+                    'label'         => 'Dominio',
+                    'type'          => 'varchar',//varchar, text, enum
+                    'description'   => 'Dominio cadastrado no site https://mailgun.com',
+                    'value'         => '',
+                    'value_default' => ''
+                ),
+            ),
+        ),
     );
     
     public function getFiles() {

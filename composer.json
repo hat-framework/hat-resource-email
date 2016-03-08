@@ -13,9 +13,10 @@
             "role": "Developer"
         }
     ],
-    
+
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "mailgun/mailgun-php": "~1.7.2"
     },
     "autoload": {
         "psr-4": {
