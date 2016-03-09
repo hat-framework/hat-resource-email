@@ -92,7 +92,7 @@ class phpMailgun extends classes\Classes\Object implements mailer {
                     'from'                => $this->nome_remetente . ' <' . $this->email_remetente . '>',
                     'to'                  => implode(",", $this->destinatario),
                     'subject'             => $this->assunto,// 'Hey %recipient.first%'
-                    'text'                => $this->corpo,
+                    'html'                => $this->corpo,
                     'recipient-variables' => json_encode($this->destinatarioRecipient)
                 ));
 

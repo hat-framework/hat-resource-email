@@ -93,7 +93,7 @@ class mailgunResource extends \classes\Interfaces\resource {
                              $email_remetente = "", $nomeRemetente = "", $anexo = array()
     ) {
         if (trim($email_remetente) == "") {
-            $email_remetente = (MAIL_RESPONDER != '') ? MAIL_RESPONDER : 'no-reply@' . $_SERVER['HTTP_HOST'];
+            $email_remetente = (MAIL_EMAIL != '') ? MAIL_EMAIL : 'no-reply@' . $_SERVER['HTTP_HOST'];
         }
         if (trim($nomeRemetente) == "") {
             $nomeRemetente = (MAIL_REMETENTE != '') ? MAIL_REMETENTE : SITE_NOME;
