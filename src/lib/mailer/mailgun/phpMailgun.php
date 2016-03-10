@@ -96,6 +96,10 @@ class phpMailgun extends classes\Classes\Object implements mailer {
                     'recipient-variables' => json_encode($this->destinatarioRecipient)
                 ));
 
+            $this->destinatario = array();
+            $this->destinatarioRecipient = array();
+            $this->__construct();
+
             if (!$enviado) {
 
                 //Verificar mensagens de erro
@@ -108,6 +112,11 @@ class phpMailgun extends classes\Classes\Object implements mailer {
         } catch (Exception $e) {
             $msg = ($e->getMessage() != "") ? $e->getMessage() : "Não possível enviar o email, erro no servidor!";
             $this->setErrorMessage($msg);
+
+
+            $this->destinatario = array();
+            $this->destinatarioRecipient = array();
+            $this->__construct();
 
             return false;
         }
