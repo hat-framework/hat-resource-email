@@ -63,15 +63,12 @@ class phpMailgun extends classes\Classes\Object implements mailer {
 
             // ajusta as informaçoes do contato(email e nome) para se poder utilizar ambas informaçoes
             foreach ($destinatario as $email => $nome) {
-
                 $email = utf8_decode($email);
-
                 $this->destinatario[] = $email;
                 $this->destinatarioRecipient[$email] = array( 'first' => $nome, 'id' => $email );
             }
         } else {
-            if ($destinatario == "")
-                $destinatario = MAIL_EMAIL;
+            if ($destinatario == ""){$destinatario = MAIL_EMAIL;}
 
             // atribui apenas o email enviado
             $this->destinatario[] = utf8_decode($destinatario);
@@ -79,46 +76,43 @@ class phpMailgun extends classes\Classes\Object implements mailer {
     }
 
     public function AddAttachment($file_name, $newname) {
+        
     }
 
+    private function reset(){
+        $this->destinatario = array();
+        $this->destinatarioRecipient = array();
+        $this->__construct();
+    }
+    
     public function send() {
         //Checamos se a mensagem foi enviada ou se teve algum erro...
         try {
-
             $domain = MAILGUN_DOMINIO;
-
-            $enviado = $this->mailgun->sendMessage("$domain",
-                array(
-                    'from'                => $this->nome_remetente . ' <' . $this->email_remetente . '>',
-                    'to'                  => implode(",", $this->destinatario),
-                    'subject'             => $this->assunto,// 'Hey %recipient.first%'
-                    'html'                => $this->corpo,
-                    'recipient-variables' => json_encode($this->destinatarioRecipient)
-                ));
-
-            $this->destinatario = array();
-            $this->destinatarioRecipient = array();
-            $this->__construct();
-
-            if (!$enviado) {
-
-                //Verificar mensagens de erro
-                $this->setErrorMessage($enviado->http_response_body->message);
-
-                return false;
-            }
-
+            if(!$this->blockMultipleMails()){return false;}
+            $enviado = $this->mailgun->sendMessage("$domain", array(
+                'from'                => $this->nome_remetente . ' <' . $this->email_remetente . '>',
+                'to'                  => implode(",", $this->destinatario),
+                'subject'             => $this->assunto,// 'Hey %recipient.first%'
+                'html'                => $this->corpo,
+                'recipient-variables' => json_encode($this->destinatarioRecipient)
+            ));
+            $this->reset();
+            if (!$enviado) {return $this->setErrorMessage($enviado->http_response_body->message);}
             return true;
         } catch (Exception $e) {
             $msg = ($e->getMessage() != "") ? $e->getMessage() : "Não possível enviar o email, erro no servidor!";
             $this->setErrorMessage($msg);
-
-
-            $this->destinatario = array();
-            $this->destinatarioRecipient = array();
-            $this->__construct();
-
+            $this->reset();
             return false;
         }
     }
+    
+            private function blockMultipleMails(){
+                if(count($this->destinatario) == 1){return true;}
+                $msg = 'Falha ao enviar email: Mais de um destinatário selecionado na API do mailgun! Por questões de segurança da política antispam, não será possível enviar emails para mais de um remetente.';
+                sendEmailToWebmasters("Mailgun Not Send", $msg);
+                $this->reset();
+                return $this->setErrorMessage($msg);
+            }
 }
